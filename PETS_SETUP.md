@@ -32,10 +32,20 @@ Eltávolítva: `/tmp/hermes-dyslexia-shim-backup-20260826/`.
 
 ---
 
-## 2. Profil színkülönbség (működik)
+## 2. Profil színkülönbség (skin fájl név BUG!)
 
-Minden profilnak saját skin-je van (`<HERMES_HOME>/skins/<profil>.yaml`),
-különböző színekkel. Ez megkülönbözteti a botokat a gridben:
+Minden profilnak saját skin-je van, különböző színekkel. A skin fájl
+`<HERMES_HOME>/skins/<profil>-avatar.yaml` néven KELL lennie, mert a config
+`display.skin: <profil>-avatar` értéket így oldja fel a skin engine
+(`skins/<display.skin>.yaml`).
+
+⚠️ **BUG:** ha a fájl `<profil>.yaml` néven van, de a config `<profil>-avatar`-t
+hivatkoz → a skin engine NEM találja → visszaesik a **default (arany) skinre**
+→ **minden profil ugyanolyan színű**. Javítás: fájl átnevezése `<profil>-avatar.yaml`-re.
+
+Skin váltás után TUI restart kell: `bash restart-tuis.sh`
+
+Színek (skin fájl `banner_border` / `response_border`):
 
 | Profil | Szín |
 |---|---|
