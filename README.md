@@ -45,7 +45,9 @@ HERMES_HOME=/root/.hermes/profiles/<bot> hermes config set model <modell>
 | Fájl | Leírás |
 |---|---|
 | `hermes-bots-herdr.sh` | Idempotens építő szkript: w1/w3 workspace-ök, pane-ek, TUI indítás |
+| `launch-4-profiles.sh` | 4 profil külön Hermes Desktop (Electron) ablakban — dyslexiás/GUI munka |
 | `docs_RUNBOOK.md` | CT-304 Proxmox node-migrációs runbook (pve-03 → pve-02) |
+| `PETS_SETUP.md` | Pets avatárok + dyslexiás font + herdr telemetry beállítása |
 | `SECURITY.md` | Titok-kezelési szabályok a bot-hálóban |
 
 ## Használat
