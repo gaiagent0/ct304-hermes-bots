@@ -32,13 +32,41 @@ A Hermes Desktop (Electron) ablakok **instabilak** ezen a host-on:
 A herdr grid **nem használ X szervert** (headless TUI terminálban), ezért
 nem érinti a GPU/Xvfb probléma. Ezért a herdr a hivatalos stabil felület.
 
+## Profil-struktúra: SOUL.md + AGENTS.md
+
+Minden gridbot kétfájlos profilt használ (2026-08-28 óta):
+
+- **`SOUL.md`** — identitás + stílus (rövid, karcsúsított).
+- **`AGENTS.md`** — rutin, handoff-szabályok, Változtatási zár,
+  cron-guardrail, Langfuse-tudás, skill-lista.
+
+A Hermes az `AGENTS.md`-t a `terminal.cwd`-ből tölti be, ezért minden profil
+`config.yaml`-jában explicit `terminal.cwd` mutat a saját profil-mappára.
+
+## Delegálás és jóváhagyás: kanban board `ct304-team`
+
+A delegálás és a módosító-művelet jóváhagyás natív gerince a **`ct304-team`
+kanban board** (2026-08-28 óta):
+
+- **Dispatch:** percenkénkénti crontab → `hermes kanban dispatch`. A
+  gateway-be épített auto-dispatch nem indul el ebben a build-ben, ezért a
+  cron-dispatch a működőképes út.
+- Egyetlen gateway dispatch-eli a boardot (a proxi66 profil
+  `kanban.dispatch_in_gateway: false`, így csak worker, nem dispatcher —
+  elkerüli a claim race-t).
+- **Bizonyított handoff-láncok:** `kutato → iro` és
+  `fejleszto → kodolo` (`kanban_create` + `kanban_request_review`).
+
 ## Komponensek
 
 | Komponens | Állapot | Megjegyzés |
 |-----------|---------|------------|
 | herdr grid (8 bot) | ✅ STABIL | Elsődleges felület |
+| Langfuse v4.22.0 | ✅ AKTÍV | CT306, `events_only` mód, teljes backfill |
 | Langfuse plugin | ✅ AKTÍV | `plugins/observability/langfuse` (bundled) |
-| ox-alpha-free modellek | ✅ AKTÍV | rendszergazda, biztonsagor |
+| kanban board `ct304-team` | ✅ AKTÍV | cron-dispatched delegálás/jóváhagyás |
+| proxi66 gateway | ✅ systemd | `hermes-gateway-proxi66.service`, `--external-supervisor` |
+| ox-alpha-free modellek | ⚠️ MÓDOSULT | a profilok `config.yaml`-ja a mértékadó (ingyenes kör) |
 | Desktop ablakok (Electron) | ❌ INSTABIL | Ne használd — GPU crash |
 | Xvfb | ⚠️ Nem kell | Csak desktop ablakhoz kellene |
 
@@ -50,4 +78,5 @@ venv + minden profil). Nem kell profilonként futtatni. Az update után:
 2. `hermes update`
 3. Indítsd újra (`hermes-bots-herdr.sh` + `restart-tuis.sh`)
 
-Utolsó update: 2026-08-27, `main @ 1a66134404` (v0.20.5).
+Utolsó update: 2026-08-28, `main @ a9611f3c6f` (v0.20.5 utáni 62 commit).
+A v0.20.5 baseline 2026-08-27-en (`main @ 1a66134404`) volt.
