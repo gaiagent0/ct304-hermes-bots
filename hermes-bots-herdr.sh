@@ -62,10 +62,10 @@ print(len(ps))")
 
   for i in $(seq 0 $((N-1))); do
     local p="${PROFILES[$i]}"
-    herdr pane run "${PANES[$i]}" "HERMES_HOME=/root/.hermes/profiles/$p hermes --tui" >/dev/null 2>&1
+    herdr pane run "${PANES[$i]}" "HERMES_HOME=/root/.hermes/profiles/$p hermes chat" >/dev/null 2>&1
   done
   sleep 5
-  echo "[✓] $WS-ID kész: ${PROFILES[*]}"
+  echo "[✓] $WS_ID kész: ${PROFILES[*]}"
 }
 
 case "$TARGET" in
